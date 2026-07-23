@@ -1,0 +1,6 @@
+
+{% extends "base.html" %}{% block content %}<h1>Clients</h1><div class="panel"><h2>Ajouter un client</h2>
+<form method="post" class="grid"><input name="full_name" placeholder="Nom complet" required><input name="passport_number" placeholder="Passeport">
+<input name="nationality" placeholder="Nationalité"><input name="email" type="email" placeholder="Email"><input name="phone" placeholder="Téléphone"><button>Enregistrer</button></form></div>
+<div class="panel"><table><tr><th>Nom</th><th>Passeport</th><th>Nationalité</th><th>Email</th><th>Téléphone</th></tr>
+{% for c in clients %}<tr><td>{{c.full_name}}</td><td>{{c.passport_number}}</td><td>{{c.nationality}}</td><td>{{c.email}}</td><td>{{c.phone}}</td></tr>{% else %}<tr><td colspan="5">Aucun client.</td></tr>{% endfor %}</table></div>{% endblock %}

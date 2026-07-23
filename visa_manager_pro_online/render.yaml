@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: visa-manager-pro
+    runtime: docker
+    plan: starter
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DB_PATH
+        value: /data/visa_manager.db
+      - key: UPLOAD_DIR
+        value: /data/uploads
+    disk:
+      name: visa-manager-data
+      mountPath: /data
+      sizeGB: 10

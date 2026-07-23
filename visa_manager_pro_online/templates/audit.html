@@ -1,0 +1,3 @@
+
+{% extends "base.html" %}{% block content %}<h1>Historique des actions</h1><div class="panel"><table><tr><th>Date</th><th>Utilisateur</th><th>Action</th><th>Détails</th></tr>
+{% for l in logs %}<tr><td>{{l.created_at}}</td><td>{{l.full_name or '-'}}</td><td>{{l.action}}</td><td>{{l.details}}</td></tr>{% else %}<tr><td colspan="4">Aucune action.</td></tr>{% endfor %}</table></div>{% endblock %}

@@ -1,0 +1,14 @@
+
+{% extends "base.html" %}{% block content %}<h1>Dossier de {{case.full_name}}</h1>
+<div class="cards"><div class="card"><span>Passeport</span><strong class="small">{{case.passport_number or '-'}}</strong></div><div class="card"><span>Destination</span><strong class="small">{{case.destination_country}}</strong></div><div class="card"><span>Type</span><strong class="small">{{case.visa_type}}</strong></div><div class="card"><span>Statut</span><strong class="small">{{case.status}}</strong></div></div>
+
+<div class="panel"><h2>Checklist intelligente</h2>{% for i in checklist %}<div class="checkrow"><span>{{i.item_name}}</span><form method="post" action="{{url_for('update_checklist',item_id=i.id)}}"><select name="status" onchange="this.form.submit()">{% for s in ['Manquant','Ajouté','À vérifier','Validé','Expiré'] %}<option {% if i.status==s %}selected{% endif %}>{{s}}</option>{% endfor %}</select></form></div>{% endfor %}</div>
+
+<div class="panel"><h2>Ajouter un document</h2><form method="post" enctype="multipart/form-data" action="{{url_for('upload_document',case_id=case.id)}}" class="grid">
+<select name="document_type"><option>Passeport</option><option>Photo</option><option>Assurance voyage</option><option>Réservation de vol</option><option>Justificatif d'hébergement</option><option>Relevé bancaire</option><option>Lettre employeur</option><option>Itinéraire</option><option>Autre</option></select>
+<input type="file" name="file" accept=".pdf,.png,.jpg,.jpeg" required><button>Téléverser</button></form></div>
+
+<div class="panel"><h2>Documents</h2><table><tr><th>Type</th><th>Fichier</th><th>Actions</th></tr>{% for d in documents %}
+<tr><td>{{d.document_type}}</td><td>{{d.original_name}}</td><td><a class="button-link" href="{{url_for('download_document',doc_id=d.id)}}">Télécharger</a>
+<form method="post" action="{{url_for('delete_document',doc_id=d.id)}}" style="display:inline"><button class="danger">Supprimer</button></form></td></tr>
+{% else %}<tr><td colspan="3">Aucun document.</td></tr>{% endfor %}</table></div>{% endblock %}

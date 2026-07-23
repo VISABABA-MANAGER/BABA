@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+visa_manager.db
+uploads/*
+!uploads/.gitkeep
