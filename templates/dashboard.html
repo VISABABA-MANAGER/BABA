@@ -1,0 +1,6 @@
+
+{% extends "base.html" %}{% block content %}<h1>Tableau de bord</h1>
+<div class="cards"><div class="card"><span>Clients</span><strong>{{stats.clients}}</strong></div><div class="card"><span>Dossiers</span><strong>{{stats.cases}}</strong></div>
+<div class="card"><span>Documents</span><strong>{{stats.docs}}</strong></div><div class="card"><span>Complets</span><strong>{{stats.complete}}</strong></div></div>
+<div class="panel"><h2>Derniers dossiers</h2><table><tr><th>Client</th><th>Destination</th><th>Type</th><th>Statut</th></tr>
+{% for c in recent %}<tr><td>{{c.full_name}}</td><td>{{c.destination_country}}</td><td>{{c.visa_type}}</td><td>{{c.status}}</td></tr>{% else %}<tr><td colspan="4">Aucun dossier.</td></tr>{% endfor %}</table></div>{% endblock %}

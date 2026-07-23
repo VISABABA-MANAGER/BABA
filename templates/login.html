@@ -1,0 +1,7 @@
+
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connexion</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body class="login-page"><div class="login-card"><h1>Visa Manager Pro V3</h1><p>Connexion sécurisée</p>
+{% with messages=get_flashed_messages() %}{% for m in messages %}<div class="flash">{{m}}</div>{% endfor %}{% endwith %}
+<form method="post"><input type="email" name="email" placeholder="Email" required><input type="password" name="password" placeholder="Mot de passe" required><button>Se connecter</button></form>
+<p class="hint">Compte initial : admin@visamanager.local / Admin123!</p></div></body></html>

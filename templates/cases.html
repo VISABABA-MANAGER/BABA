@@ -1,0 +1,11 @@
+
+{% extends "base.html" %}{% block content %}<h1>Dossiers visa</h1><div class="panel"><h2>Nouveau dossier</h2>
+{% if clients %}<form method="post" class="grid"><select name="client_id">{% for c in clients %}<option value="{{c.id}}">{{c.full_name}}</option>{% endfor %}</select>
+<input name="destination_country" placeholder="Pays de destination" required><select name="visa_type"><option>Tourisme</option><option>Affaires</option><option>Études</option><option>Visite familiale</option></select>
+<label>Départ<input type="date" name="departure_date"></label><label>Retour<input type="date" name="return_date"></label><label>Rendez-vous<input type="date" name="appointment_date"></label>
+<select name="status"><option>Brouillon</option><option>En préparation</option><option>Complet</option><option>Soumis</option><option>Approuvé</option><option>Refusé</option></select><button>Créer le dossier</button></form>
+{% else %}<p>Ajoutez d'abord un client.</p>{% endif %}</div>
+<div class="panel"><table><tr><th>Client</th><th>Destination</th><th>Type</th><th>Statut</th><th>Actions</th></tr>
+{% for c in cases %}<tr><td><a href="{{url_for('case_detail',case_id=c.id)}}">{{c.full_name}}</a></td><td>{{c.destination_country}}</td><td>{{c.visa_type}}</td>
+<td><form method="post" action="{{url_for('update_status',case_id=c.id)}}" class="inline"><select name="status">{% for s in ['Brouillon','En préparation','Complet','Soumis','Approuvé','Refusé'] %}<option {% if c.status==s %}selected{% endif %}>{{s}}</option>{% endfor %}</select><button>OK</button></form></td>
+<td><a class="button-link" href="{{url_for('case_detail',case_id=c.id)}}">Ouvrir</a> <a class="button-link" href="{{url_for('case_pdf',case_id=c.id)}}">PDF</a></td></tr>{% else %}<tr><td colspan="5">Aucun dossier.</td></tr>{% endfor %}</table></div>{% endblock %}

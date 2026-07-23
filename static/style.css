@@ -1,0 +1,15 @@
+
+:root{--nav:#17233f;--accent:#3157d5;--bg:#f5f7fb;--panel:#fff;--border:#e5e9f1;--text:#1d2738}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}aside{background:var(--nav);padding:24px;color:white}
+aside a{display:block;color:#dce5ff;text-decoration:none;padding:11px;border-radius:9px;margin:4px 0}aside a:hover{background:#26375f}
+.userbox{font-size:12px;color:#aebce5;padding:14px 10px;margin-top:18px;border-top:1px solid #2f416c}main{padding:28px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}.card,.panel{background:white;border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:18px}
+.card span{display:block;color:#6f7a8f}.card strong{display:block;font-size:30px;margin-top:8px}.card strong.small{font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}input,select,button{padding:11px;border:1px solid var(--border);border-radius:9px;font-size:14px}
+button,.button-link{background:var(--accent);color:white;border:none;text-decoration:none;padding:10px 12px;border-radius:8px;display:inline-block;cursor:pointer}.danger{background:#b42318}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--border);vertical-align:top}.inline{display:flex;gap:6px}
+.flash{background:#eaf7ef;border:1px solid #bfe4cb;padding:12px;border-radius:10px;margin-bottom:16px}.checkrow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+label{font-size:13px;color:#667085}label input{display:block;width:100%;margin-top:5px}.login-page{display:grid;place-items:center;min-height:100vh;background:#eef2f8}
+.login-card{width:min(420px,92vw);background:white;border:1px solid var(--border);border-radius:16px;padding:28px}.login-card form{display:grid;gap:12px}.hint{font-size:13px;color:#667085}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.cards,.grid{grid-template-columns:1fr}aside a{display:inline-block}table{font-size:12px}}
