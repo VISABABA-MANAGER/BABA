@@ -223,7 +223,32 @@ def api_login():
             "email": user["email"],
             "role": user["role"]
         }
+    },200
+
+@app.route("/api/countries", methods=["GET"])
+def api_countries():
+    countries = [
+        "France",
+        "Allemagne",
+        "Belgique",
+        "Espagne",
+        "Italie",
+        "Lituanie",
+        "Pays-Bas",
+        "Portugal",
+        "Pologne",
+        "Canada",
+        "États-Unis",
+        "Royaume-Uni"
+    ]
+
+    return {
+        "success": True,
+        "countries": countries
     }, 200
+
+@app.route("/logout")
+def logout():
 @app.route("/logout")
 def logout():
     session.clear()
