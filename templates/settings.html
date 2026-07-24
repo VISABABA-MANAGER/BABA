@@ -1,4 +1,19 @@
 
 {% extends "base.html" %}{% block content %}<h1>Paramètres de l'agence</h1><div class="panel"><form method="post" class="grid">
 <input name="agency_name" value="{{settings.agency_name}}" placeholder="Nom de l'agence"><input name="agency_email" value="{{settings.agency_email or ''}}" placeholder="Email">
-<input name="agency_phone" value="{{settings.agency_phone or ''}}" placeholder="Téléphone"><input name="agency_address" value="{{settings.agency_address or ''}}" placeholder="Adresse"><button>Enregistrer</button></form></div>{% endblock %}
+<input name="agency_phone" value="{{settings.agency_phone or ''}}" placeholder="Téléphone"><input name="agency_address" value="{{settings.agency_address or ''}}" placeholder="Adresse"><button>Enregistrer</button></form></div><hr><hr>
+
+<h2>Changer le mot de passe</h2>
+
+<form method="POST" action="{{ url_for('change_password') }}">
+    <input type="password" name="current_password"
+           placeholder="Mot de passe actuel" required>
+
+    <input type="password" name="new_password"
+           placeholder="Nouveau mot de passe" required>
+
+    <input type="password" name="confirm_password"
+           placeholder="Confirmer le nouveau mot de passe" required>
+
+    <button type="submit">Changer le mot de passe</button>
+</form>{% endblock %}
