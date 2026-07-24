@@ -1,5 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
 
-{% extends "base.html" %}{% block content %}<h1>Utilisateurs</h1><div class="panel"><form method="post" class="grid">
-<input name="full_name" placeholder="Nom complet" required><input type="email" name="email" placeholder="Email" required><input type="password" name="password" placeholder="Mot de passe" required>
-<select name="role"><option value="employee">Employé</option><option value="admin">Administrateur</option></select><button>Créer</button></form></div>
-<div class="panel"><table><tr><th>Nom</th><th>Email</th><th>Rôle</th></tr>{% for u in users %}<tr><td>{{u.full_name}}</td><td>{{u.email}}</td><td>{{u.role}}</td></tr>{% endfor %}</table></div>{% endblock %}
+<h1>Utilisateurs</h1>
+
+<div class="panel">
+  <form method="post" class="grid">
+    <input
+      name="full_name"
+      placeholder="Nom complet"
+      required
+    >
+
+    <input
+      type="email"
+      name="email"
+      placeholder="Email"
+      required
+    >
+
+    <input
+      type="password"
+      name="password"
+      placeholder="Mot de passe"
+      required
+    >
+
+    <select name="role">
+      <option value="employee">Employé</option>
+      <option value="admin">Administrateur</option>
+    </select>
+
+    <button type="submit">Créer</button>
+  </form>
+</div>
+
+<div class="panel">
+  <table>
+    <tr>
+      <th>Nom</th>
+      <th>Email</th>
+      <th>Rôle</th>
+      <th>Réinitialiser le mot de passe</th>
+      <th>Actions</th>
+    </tr>
+
+    {% for u in users %}
+    <tr>
+      <td>{{ u.full_name }}</td>
+      <td>{{ u.email }}</td>
+      <td>{{ u.role }}</td>
+
+      <td>
+        <form
+          method="POST"
+          action="{{ url_for('reset_user_password', user_id=u.id) }}"
+        >
+          <input
+            type="password"
+            name="new_password"
+            placeholder="Nouveau mot de passe"
+            minlength="8"
+            required
+          >
+          <button type="submit">
+            Réinitialiser
+          </button>
+        </form>
+      </td>
+
+      <td>
+        <form
+          method="POST"
+          action="{{ url_for('delete_user', user_id=u.id) }}"
+          onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?');"
+        >
+          <button type="submit">
+            Supprimer
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
