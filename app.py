@@ -249,8 +249,6 @@ def api_countries():
 
 @app.route("/logout")
 def logout():
-@app.route("/logout")
-def logout():
     session.clear()
     return redirect(url_for("login"))
 
