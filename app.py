@@ -354,6 +354,51 @@ def users():
     rows = conn.execute("SELECT id,full_name,email,role FROM users ORDER BY id DESC").fetchall()
     conn.close()
     return render_template("users.html", users=rows)
+@app.route("/users/<int:user_id>/reset-password", methods=["POST"])
+@admin_required
+def reset_user_password(user_id):
+    new_password = request.form.get("new_password", "")
+
+    if len(new_password) < 8:
+        flash("Le nouveau mot de passe doit contenir au moins 8 caractères.")
+        return redirect(url_for("users"))
+
+    conn = db()
+    user = conn.execute(
+        "SELECT id FROM users WHERE id = ?",
+        (user_id,)
+    ).fetchone()
+
+    if not user:
+        conn.close()
+        flash("Utilisateur introuvable.")
+        return redirect(url_for("users"))
+
+    conn.execute(
+        "UPDATE users SET password_hash = ? WHERE id = ?",
+        (generate_password_hash(new_password), user_id)
+    )
+    conn.commit()
+    conn.close()
+
+    flash("Mot de passe réinitialisé avec succès.")
+    return redirect(url_for("users"))
+
+
+@app.route("/users/<int:user_id>/delete", methods=["POST"])
+@admin_required
+def delete_user(user_id):
+    if user_id == session.get("user_id"):
+        flash("Vous ne pouvez pas supprimer votre propre compte.")
+        return redirect(url_for("users"))
+
+    conn = db()
+    conn.execute("DELETE FROM users WHERE id = ?", (user_id,))
+    conn.commit()
+    conn.close()
+
+    flash("Utilisateur supprimé.")
+    return redirect(url_for("users"))  
 @app.route("/change-password", methods=["POST"])
 @admin_required
 def change_password():
