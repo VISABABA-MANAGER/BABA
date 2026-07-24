@@ -186,7 +186,44 @@ def login():
             return redirect(url_for("dashboard"))
         flash("Identifiants incorrects.")
     return render_template("login.html")
+@app.route("/api/login", methods=["POST"])
+def api_login():
+    data = request.get_json(silent=True) or {}
 
+    email = data.get("email", "").strip().lower()
+    password = data.get("password", "")
+
+    if not email or not password:
+        return {
+            "success": False,
+            "message": "Email et mot de passe requis"
+        }, 400
+
+    conn = db()
+    user = conn.execute(
+        "SELECT * FROM users WHERE email = ?",
+        (email,)
+    ).fetchone()
+    conn.close()
+
+    if not user or not check_password_hash(
+        user["password_hash"], password
+    ):
+        return {
+            "success": False,
+            "message": "Identifiants incorrects"
+        }, 401
+
+    return {
+        "success": True,
+        "message": "Connexion réussie",
+        "user": {
+            "id": user["id"],
+            "full_name": user["full_name"],
+            "email": user["email"],
+            "role": user["role"]
+        }
+    }, 200
 @app.route("/logout")
 def logout():
     session.clear()
