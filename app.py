@@ -354,7 +354,41 @@ def users():
     rows = conn.execute("SELECT id,full_name,email,role FROM users ORDER BY id DESC").fetchall()
     conn.close()
     return render_template("users.html", users=rows)
+@app.route("/change-password", methods=["POST"])
+@admin_required
+def change_password():
+    current_password = request.form.get("current_password", "")
+    new_password = request.form.get("new_password", "")
+    confirm_password = request.form.get("confirm_password", "")
 
+    if new_password != confirm_password:
+        flash("Les nouveaux mots de passe ne correspondent pas.")
+        return redirect(url_for("settings"))
+
+    if len(new_password) < 8:
+        flash("Le nouveau mot de passe doit contenir au moins 8 caractères.")
+        return redirect(url_for("settings"))
+
+    conn = db()
+    user = conn.execute(
+        "SELECT id, password_hash FROM users WHERE id = ?",
+        (session["user_id"],)
+    ).fetchone()
+
+    if not user or not check_password_hash(user["password_hash"], current_password):
+        conn.close()
+        flash("Mot de passe actuel incorrect.")
+        return redirect(url_for("settings"))
+
+    conn.execute(
+        "UPDATE users SET password_hash = ? WHERE id = ?",
+        (generate_password_hash(new_password), session["user_id"])
+    )
+    conn.commit()
+    conn.close()
+
+    flash("Mot de passe modifié avec succès.")
+    return redirect(url_for("settings"))
 @app.route("/settings", methods=["GET","POST"])
 @admin_required
 def settings():
